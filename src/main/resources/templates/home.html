@@ -14,18 +14,18 @@
     <p>表格展示已有的任务，可管理任务增删改查及任务开关。</p>
     <div style="margin:20px 0;"></div>
     <!--  -->
-    <table class="easyui-datagrid" title="任务表" style="width:100%;height:580px"
-            data-options="singleSelect:true,collapsible:true,url:'task',method:'get'">
+    <table id="tt" class="easyui-datagrid" title="任务表" style="width:100%;height:580px"
+            data-options="singleSelect:true,url:'task',method:'get',toolbar:table.toolbar">
         <thead>
             <tr>
-                <th data-options="field:'itemid',width:150,align:'center'">任务编号</th>
-                <th data-options="field:'productid',width:150,align:'center'">触发器编号</th>
-                <th data-options="field:'listprice',width:150,align:'center'">分组编号</th>
-                <th data-options="field:'unitcost',width:200,align:'center'">消息</th>
-                <th data-options="field:'attr1',width:250,align:'center'">cron表达式</th>
-                <th data-options="field:'status',width:150,align:'center'">操作</th>
+                <th data-options="field:'task_key',width:150,align:'center',editor:'textbox'">任务编号</th>
+                <th data-options="field:'trigger_key',width:150,align:'center',editor:'textbox'">触发器编号</th>
+                <th data-options="field:'group_key',width:150,align:'center',editor:'textbox'">分组编号</th>
+                <th data-options="field:'message',width:200,align:'center',editor:'textbox'">消息</th>
+                <th data-options="field:'cron',width:250,align:'center',editor:'textbox'">cron表达式</th>
+                <th data-options="field:'handle',width:150,align:'center'">操作</th>
             </tr>
         </thead>
-    </table>
+    </table> 
 </body>
 </html>
