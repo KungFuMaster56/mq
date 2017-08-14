@@ -3,6 +3,7 @@
  * @returns
  */
 function table(){
+
 	this.toolbar = [{
 	            text:'增加',
 	            iconCls:'icon-add',
@@ -19,6 +20,10 @@ function table(){
 	            text:'保存',
 	            iconCls:'icon-save',
 	            handler:function(){save()}
+	        },'-',{
+	            text:'查询',
+	            iconCls:'icon-search',
+	            handler:function(){search()}
 	        }];
 	 var editIndex = undefined;
 	 function endEditing(){
@@ -31,12 +36,19 @@ function table(){
              return false;
          }
      }
+	var search = function(){
+		$('#tt').datagrid('reload');
+	}
 	var addRow = function(){
 		 if (endEditing()){
              $('#tt').datagrid('appendRow',{});
              editIndex = $('#tt').datagrid('getRows').length-1;
              $('#tt').datagrid('selectRow', editIndex)
                      .datagrid('beginEdit', editIndex);
+             $('input[name="switchButton"]').switchbutton({
+         		checked:false,
+         		readonly:true
+         	});
          }
 	}
 	var delRow = function(){
@@ -54,9 +66,61 @@ function table(){
 	}
 	var save = function(){
 		if (endEditing()){
-			var rows = $('#tt').datagrid('getChanges');
-			alert(rows.length+' rows are changed!');
+			var ins = $('#tt').datagrid('getChanges','inserted');
+			var del = $('#tt').datagrid('getChanges','deleted');
+			var upd = $('#tt').datagrid('getChanges','updated');
+			var data,t;
+			if(ins.length!=0){
+				fire(ins,'post');
+			}
+			if(upd.length!=0){
+				fire(upd,'put');
+			}
+			if(del.length!=0){
+				fire(del,'delete');
+			}
 		}
+	}
+	var fire = function(data,type){
+		$.ajax({
+			url:$('#tt').datagrid('options')['url'],//'task',
+			type:type,//'post'
+			data:JSON.stringify(data),
+			contentType:'application/json;charset=utf-8',
+			//dataType:'json',
+			success:function(data){
+					 $.messager.alert('信息','执行成功!','info');
+					 search();
+			},
+			error:function(data){
+				alert("ERRO   "+JSON.stringify(data))
+			}
+		})
+	}
+	this.switchButton = function(value,row,index){
+		return ' <input data-num="'+index+'" name ="switchButton" switch="'+value+'"/>';
+	}
+	this.loadSuccess = function(data){
+    	$('input[name="switchButton"]').switchbutton({
+    		checked:false,
+    		onChange: function(checked){
+    			var rows = $('#tt').datagrid('getRows');
+    			var index = $(this).attr('data-num');
+    			var row = rows[index];
+             // alert(JSON.stringify($(this).switchbutton('options')))
+    			if(checked){
+    				openMessage(row);
+    			}else{
+    				closeMessage(row);
+    			}
+            }
+    	});
+	}
+	var openMessage = function(row){
+		alert('open message!!'+JSON.stringify(row))
+	}
+	var closeMessage = function(row){
+		alert('close message!!'+JSON.stringify(row));
 	}
 }
 

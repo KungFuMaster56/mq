@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htdf.ma.mq.mapper.QuartzTaskMapper" >
+
+	<select id="getAll" resultType="QuartzTask">
+		SELECT * FROM quartz_task
+	</select>
+	
+	<insert id="insertBatch">
+		INSERT INTO quartz_task (task_key,group_key,trigger_key,message,cron)
+		VALUES
+		<foreach collection="qts" item="item" separator=",">
+			(#{item.task_key},#{item.group_key},#{item.trigger_key},#{item.message},#{item.cron})
+		</foreach>
+	</insert>
+	
+	<update id="updateBatch">
+		<foreach collection="qts" item="item" separator=";"></foreach>
+			UPDATE quartz_task 
+			<set>
+				 cron =#{item.cron},
+				 task_key=#{item.task_key},
+				 group_key=#{item.group_key},
+				 trigger_key=#{item.trigger_key},
+				 message=#{item.message},
+				 onoff=#{item.onoff} 
+			</set>
+			
+			WHERE id=#{item.id}
+	</update>
+	
+	<delete id="deleteBatch">
+		DELETE FROM quartz_task WHERE id in 
+		<foreach collection="qts" item="item" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+</mapper>

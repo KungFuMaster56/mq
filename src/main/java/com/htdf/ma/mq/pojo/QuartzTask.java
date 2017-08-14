@@ -13,6 +13,8 @@ public class QuartzTask {
 	private String message;
 	
 	private String cron;
+	
+	private String onoff;
 
 	public Long getId() {
 		return id;
@@ -60,6 +62,14 @@ public class QuartzTask {
 
 	public void setCron(String cron) {
 		this.cron = cron;
+	}
+
+	public String getOnoff() {
+		return onoff;
+	}
+
+	public void setOnoff(String onoff) {
+		this.onoff = onoff;
 	}
 	
 	

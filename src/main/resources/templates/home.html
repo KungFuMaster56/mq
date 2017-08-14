@@ -15,15 +15,38 @@
     <div style="margin:20px 0;"></div>
     <!--  -->
     <table id="tt" class="easyui-datagrid" title="任务表" style="width:100%;height:580px"
-            data-options="singleSelect:true,url:'task',method:'get',toolbar:table.toolbar">
+            data-options="singleSelect:true,url:'task',method:'get',toolbar:table.toolbar,onLoadSuccess:table.loadSuccess">
         <thead>
             <tr>
+                <th data-options="field:'message',width:200,align:'center',editor:{
+                type:'combobox',options:{valueField:'message_code',textField:'message_name',method:'get',url:'message',
+                onSelect:function(record){
+                                var row = $('#tt').datagrid('getSelected');  
+                                var rindex = $('#tt').datagrid('getRowIndex', row);  
+                                var ed = $('#tt').datagrid('getEditor', {  
+                                        index : rindex,  
+                                        field : 'task_key'  
+                                    });  
+                                $(ed.target).textbox('setValue', record['message_code']);
+                                 var ed1 = $('#tt').datagrid('getEditor', {  
+                                        index : rindex,  
+                                        field : 'trigger_key'  
+                                    });  
+                                $(ed1.target).textbox('setValue', record['message_code']);
+                                var ed2 = $('#tt').datagrid('getEditor', {  
+                                        index : rindex,  
+                                        field : 'group_key'  
+                                    });  
+                                $(ed2.target).textbox('setValue', record['message_code']);   
+                }}
+                }"><a href="message_index">消息</a></th>
                 <th data-options="field:'task_key',width:150,align:'center',editor:'textbox'">任务编号</th>
                 <th data-options="field:'trigger_key',width:150,align:'center',editor:'textbox'">触发器编号</th>
                 <th data-options="field:'group_key',width:150,align:'center',editor:'textbox'">分组编号</th>
-                <th data-options="field:'message',width:200,align:'center',editor:'textbox'">消息</th>
-                <th data-options="field:'cron',width:250,align:'center',editor:'textbox'">cron表达式</th>
-                <th data-options="field:'handle',width:150,align:'center'">操作</th>
+                <th data-options="field:'cron',width:250,align:'center',editor:{
+                type:'combobox',options:{valueField:'cron',textField:'cron_name',method:'get',url:'cron'}
+                }"><a href="cron_index">cron表达式</a></th>
+                <th data-options="field:'onoff',width:200,align:'center',formatter:table.switchButton">操作</th>
             </tr>
         </thead>
     </table> 

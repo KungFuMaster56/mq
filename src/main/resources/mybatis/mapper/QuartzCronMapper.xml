@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.htdf.ma.mq.mapper.QuartzCronMapper" >
+
+	<select id="getAll" resultType="QuartzCron">
+		SELECT * FROM quartz_cron
+	</select>
+	
+	<insert id="insertBatch">
+		INSERT INTO quartz_cron (cron,cron_name)
+		VALUES
+		<foreach collection="qts" item="item" separator=",">
+			(#{item.cron},#{item.cron_name})
+		</foreach>
+	</insert>
+	
+	<update id="updateBatch">
+		<foreach collection="qts" item="item" separator=";"></foreach>
+			UPDATE quartz_cron 
+			<set>
+				 cron =#{item.cron},
+				 cron_name=#{item.cron_name}
+			</set>
+			
+			WHERE id=#{item.id}
+	</update>
+	
+	<delete id="deleteBatch">
+		DELETE FROM quartz_cron WHERE id in 
+		<foreach collection="qts" item="item" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+</mapper>

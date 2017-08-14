@@ -12,68 +12,61 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.htdf.ma.mq.mapper.QuartzTaskMapper;
-import com.htdf.ma.mq.pojo.QuartzTask;
-/**
- * 
- * @ClassName: TaskController 
- * @Description: 任务控制器
- * @author: mengxn
- * @date: 2017年8月11日 下午1:21:29
- */
+import com.htdf.ma.mq.mapper.QuartzMessageMapper;
+import com.htdf.ma.mq.pojo.QuartzMessage;
+
 @RestController
-@RequestMapping("task")
-public class TaskController {
+@RequestMapping("message")
+public class MessageController {
+	
 	
 	@Resource
-	private QuartzTaskMapper mapper;
-	
+	private QuartzMessageMapper mapper;
 	/**
 	 * 
-	 * @Title: quartzTask 
-	 * @Description: 新增调度任务
+	 * @Title: quartzMessage 
+	 * @Description: 新增调度消息
 	 * @return: void
 	 */
 	@PostMapping
-	public void PosTask(@RequestBody List<QuartzTask> qts){
+	public void PosMessage(@RequestBody List<QuartzMessage> qts){
 		mapper.insertBatch(qts);
 	}
 	
 	/**
 	 * 
-	 * @Title: DelQuartzTask 
-	 * @Description: 删除调度任务
+	 * @Title: DelQuartzMessage 
+	 * @Description: 删除调度消息
 	 * @param id
 	 * @return: void
 	 */
 	@DeleteMapping
-	public void DelTask(@RequestBody List<QuartzTask> qts){
+	public void DelMessage(@RequestBody List<QuartzMessage> qts){
 		mapper.deleteBatch(qts);
 	}
 	
 	/**
 	 * 
-	 * @Title: UpdQuartzTask 
-	 * @Description: 修改调度任务
+	 * @Title: UpdQuartzMessage 
+	 * @Description: 修改调度消息
 	 * @param id
 	 * @return: void
 	 */
 	@PutMapping
-	public void UpdTask(@RequestBody List<QuartzTask> qts){
+	public void UpdMessage(@RequestBody List<QuartzMessage> qts){
 		mapper.updateBatch(qts);
 	}
 	
 	/**
 	 * 
-	 * @Title: GetTask 
-	 * @Description: 查询调度任务
+	 * @Title: GetMessage 
+	 * @Description: 查询调度消息
 	 * @return
-	 * @return: List<QuartzTask>
+	 * @return: List<QuartzMessage>
 	 */
 	@GetMapping
-	public List<QuartzTask> GetTask(){
+	public List<QuartzMessage> GetMessage(){
 		return mapper.getAll();
 	}
-	
 	
 }
