@@ -3,7 +3,6 @@
  * @returns
  */
 function table(){
-
 	this.toolbar = [{
 	            text:'增加',
 	            iconCls:'icon-add',
@@ -65,25 +64,26 @@ function table(){
 		}
 	}
 	var save = function(){
+		var gridUrl = $('#tt').datagrid('options')['url'];
 		if (endEditing()){
 			var ins = $('#tt').datagrid('getChanges','inserted');
 			var del = $('#tt').datagrid('getChanges','deleted');
 			var upd = $('#tt').datagrid('getChanges','updated');
 			var data,t;
 			if(ins.length!=0){
-				fire(ins,'post');
+				fire(ins,'post',gridUrl);
 			}
 			if(upd.length!=0){
-				fire(upd,'put');
+				fire(upd,'put',gridUrl);
 			}
 			if(del.length!=0){
-				fire(del,'delete');
+				fire(del,'delete',gridUrl);
 			}
 		}
 	}
-	var fire = function(data,type){
+	var fire = function(data,type,url){
 		$.ajax({
-			url:$('#tt').datagrid('options')['url'],//'task',
+			url:url,//'task',
 			type:type,//'post'
 			data:JSON.stringify(data),
 			contentType:'application/json;charset=utf-8',
@@ -101,6 +101,15 @@ function table(){
 		return ' <input data-num="'+index+'" name ="switchButton" switch="'+value+'"/>';
 	}
 	this.loadSuccess = function(data){
+		for(var i =0;i<data.length;i++){
+			var rindex = $('#tt').datagrid('getRowIndex', data[i]);  
+			var ed2 = $('#tt').datagrid('getEditor', {  
+	            index : rindex,  
+	            field : 'onoff'  
+	        }); 
+			$(ed2.target).switchbutton('setValue', data[i]['onoff']); 
+		}
+    $(ed2.target).textbox('setValue', record['message_code']);  
     	$('input[name="switchButton"]').switchbutton({
     		checked:false,
     		onChange: function(checked){
@@ -118,9 +127,11 @@ function table(){
 	}
 	var openMessage = function(row){
 		alert('open message!!'+JSON.stringify(row))
+		fire(row,'post','message/scheduler');
 	}
 	var closeMessage = function(row){
 		alert('close message!!'+JSON.stringify(row));
+		fire(row,'delete','message/scheduler');
 	}
 }
 

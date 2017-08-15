@@ -29,6 +29,10 @@
 			WHERE id=#{item.id}
 	</update>
 	
+	<update id="update" parameterType="QuartzTask">
+		UPDATE quartz_task set onoff=#{onoff} where id=#{id}
+	</update>
+	
 	<delete id="deleteBatch">
 		DELETE FROM quartz_task WHERE id in 
 		<foreach collection="qts" item="item" separator="," open="(" close=")">

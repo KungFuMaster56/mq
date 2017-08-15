@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.htdf.ma.mq.mapper.QuartzMessageMapper;
 import com.htdf.ma.mq.pojo.QuartzMessage;
+import com.htdf.ma.mq.pojo.QuartzTask;
+import com.htdf.ma.mq.service.SchedulerService;
 
 @RestController
 @RequestMapping("message")
@@ -22,6 +24,9 @@ public class MessageController {
 	
 	@Resource
 	private QuartzMessageMapper mapper;
+	
+	@Resource
+	private SchedulerService schedulerService;
 	/**
 	 * 
 	 * @Title: quartzMessage 
@@ -67,6 +72,30 @@ public class MessageController {
 	@GetMapping
 	public List<QuartzMessage> GetMessage(){
 		return mapper.getAll();
+	}
+	
+	/**
+	 * 
+	 * @Title: addSchedulerMessage 
+	 * @Description: 发送消息启动定时任务
+	 * @param qt
+	 * @return: void
+	 */
+	@PostMapping("/scheduler")
+	public void addSchedulerMessage(@RequestBody QuartzTask qt){
+		schedulerService.addScheduler(qt);
+	}
+	
+	/**
+	 * 
+	 * @Title: delSchedulerMessage 
+	 * @Description: 发送消息关闭定时任务
+	 * @param qt
+	 * @return: void
+	 */
+	@DeleteMapping("/scheduler")
+	public void delSchedulerMessage(@RequestBody QuartzTask qt){
+		schedulerService.delScheduler(qt);
 	}
 	
 }
