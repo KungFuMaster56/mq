@@ -101,36 +101,38 @@ function table(){
 		return ' <input data-num="'+index+'" name ="switchButton" switch="'+value+'"/>';
 	}
 	this.loadSuccess = function(data){
+		var data = $('#tt').datagrid('getRows');
+		var check = false;
 		for(var i =0;i<data.length;i++){
-			var rindex = $('#tt').datagrid('getRowIndex', data[i]);  
-			var ed2 = $('#tt').datagrid('getEditor', {  
-	            index : rindex,  
-	            field : 'onoff'  
-	        }); 
-			$(ed2.target).switchbutton('setValue', data[i]['onoff']); 
+			if(data[i]['onoff']=='ON'){
+				check = true;
+			}else{
+				check =false;
+			}
+			$('input[data-num="'+i+'"]').switchbutton({
+	    		checked:check,
+	    		onChange: function(checked){
+	    			var rows = $('#tt').datagrid('getRows');
+	    			var index = $(this).attr('data-num');
+	    			var row = rows[index];
+	             // alert(JSON.stringify($(this).switchbutton('options')))
+	    			if(checked){
+	    				openMessage(row);
+	    			}else{
+	    				closeMessage(row);
+	    			}
+	            }	
+			});
 		}
-    $(ed2.target).textbox('setValue', record['message_code']);  
-    	$('input[name="switchButton"]').switchbutton({
-    		checked:false,
-    		onChange: function(checked){
-    			var rows = $('#tt').datagrid('getRows');
-    			var index = $(this).attr('data-num');
-    			var row = rows[index];
-             // alert(JSON.stringify($(this).switchbutton('options')))
-    			if(checked){
-    				openMessage(row);
-    			}else{
-    				closeMessage(row);
-    			}
-            }
-    	});
 	}
 	var openMessage = function(row){
-		alert('open message!!'+JSON.stringify(row))
+		//alert('open message!!'+JSON.stringify(row))
+		row['onoff']='ON';
 		fire(row,'post','message/scheduler');
 	}
 	var closeMessage = function(row){
-		alert('close message!!'+JSON.stringify(row));
+		//alert('close message!!'+JSON.stringify(row));
+		row['onoff']='OFF';
 		fire(row,'delete','message/scheduler');
 	}
 }

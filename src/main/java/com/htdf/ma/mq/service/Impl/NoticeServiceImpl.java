@@ -7,7 +7,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import com.htdf.ma.mq.service.NoticeService;
-@Service
+@Service("noticeService")
 public class NoticeServiceImpl implements NoticeService{
 	
 	private JmsTemplate jmsTemplate;

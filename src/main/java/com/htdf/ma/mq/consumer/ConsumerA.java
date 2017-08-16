@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsumerA {
 	
-	@JmsListener(destination="msg.p2p.queue")
+	@JmsListener(destination="ASM")
 	public void processMessage(String content){
 		
 		System.out.println("Receiving a message :" + content);

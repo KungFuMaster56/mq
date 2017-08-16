@@ -12,7 +12,6 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import com.htdf.ma.mq.job.QuartzJobFactory;
@@ -46,7 +45,7 @@ public class SchedulerServiceImpl implements SchedulerService{
 	public String delScheduler(QuartzTask qt) {
 		try {
 			Scheduler scheduler = schedulerBean.getScheduler();
-			JobKey jobKey = new JobKey(qt.getTask_key());
+			JobKey jobKey = new JobKey(qt.getTask_key(),qt.getGroup_key());
 			scheduler.deleteJob(jobKey);
 			taskMapper.update(qt);
 		} catch (SchedulerException e) {
@@ -60,7 +59,7 @@ public class SchedulerServiceImpl implements SchedulerService{
 	public String resumeScheduler(QuartzTask qt) {
 		try {
 			Scheduler scheduler = schedulerBean.getScheduler();
-			JobKey jobKey = new JobKey(qt.getTask_key());
+			JobKey jobKey = new JobKey(qt.getTask_key(),qt.getGroup_key());
 			scheduler.deleteJob(jobKey);
 			this.schedulerJob(scheduler, qt);
 			taskMapper.update(qt);
@@ -75,11 +74,10 @@ public class SchedulerServiceImpl implements SchedulerService{
 		JobKey jk = new JobKey(qt.getTask_key(),qt.getGroup_key());
 		JobDetail jd = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(jk).build();
 		jd.getJobDataMap().put("message", qt.getMessage());
-		jd.getJobDataMap().put("topic", qt.getTask_key());
 		jd.getJobDataMap().put("onoff", qt.getOnoff());
 		TriggerKey tk = new TriggerKey(qt.getTrigger_key(),qt.getGroup_key());
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity(tk)
-				.withSchedule(CronScheduleBuilder.cronSchedule(qt.getCron())).startNow().build();
+				.withSchedule(CronScheduleBuilder.cronSchedule(qt.getCron().trim())).startNow().build();
 		scheduler.scheduleJob(jd, trigger);
 	}
 }
