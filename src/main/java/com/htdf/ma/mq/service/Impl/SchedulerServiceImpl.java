@@ -1,5 +1,6 @@
 package com.htdf.ma.mq.service.Impl;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.quartz.CronScheduleBuilder;
@@ -26,6 +27,16 @@ public class SchedulerServiceImpl implements SchedulerService{
 	
 	@Resource
 	private QuartzTaskMapper taskMapper;
+	
+	/**
+	 * 
+	 * @Title:restTaskStatus
+	 * @Description:启动恢复开关状态 OFF
+	 */
+	@PostConstruct
+	public void restTaskStatus(){
+		taskMapper.taskOFF();
+	}
 
 	@Override
 	public String addScheduler(QuartzTask qt) {
@@ -77,7 +88,8 @@ public class SchedulerServiceImpl implements SchedulerService{
 		jd.getJobDataMap().put("onoff", qt.getOnoff());
 		TriggerKey tk = new TriggerKey(qt.getTrigger_key(),qt.getGroup_key());
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity(tk)
-				.withSchedule(CronScheduleBuilder.cronSchedule(qt.getCron().trim())).startNow().build();
+				.withSchedule(CronScheduleBuilder.cronSchedule(qt.getCron().trim())).build();
 		scheduler.scheduleJob(jd, trigger);
+		scheduler.triggerJob(jk,jd.getJobDataMap());//添加任务，立即执行
 	}
 }

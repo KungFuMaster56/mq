@@ -5,7 +5,6 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @SpringBootApplication
 @MapperScan("com.htdf.ma.mq.mapper")

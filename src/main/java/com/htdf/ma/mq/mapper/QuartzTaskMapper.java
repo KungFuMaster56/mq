@@ -17,4 +17,6 @@ public interface QuartzTaskMapper {
 	void updateBatch(@Param("qts")List<QuartzTask> qts);
 	
 	void update(QuartzTask qt);
+	
+	void taskOFF();
 }

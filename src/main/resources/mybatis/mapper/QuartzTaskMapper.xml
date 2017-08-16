@@ -33,6 +33,10 @@
 		UPDATE quartz_task set onoff=#{onoff} where id=#{id}
 	</update>
 	
+	<update id="taskOFF">
+		UPDATE quartz_task set onoff='OFF'
+	</update>
+	
 	<delete id="deleteBatch">
 		DELETE FROM quartz_task WHERE id in 
 		<foreach collection="qts" item="item" separator="," open="(" close=")">
