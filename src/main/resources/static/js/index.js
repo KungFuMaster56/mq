@@ -30,7 +30,9 @@ function table(){
 	            	var data = $('#tt').datagrid('getRows');
 	            	for(var i =0;i<data.length;i++){
 	            		var row = data[i];
-	            		openMessage(row);
+	            		if(row['onoff']!='ON'){
+	            			openMessage(row);
+	            		}
 	            	}
 	            	
 	            }
@@ -41,7 +43,9 @@ function table(){
 	            	var data = $('#tt').datagrid('getRows');
 	            	for(var i =0;i<data.length;i++){
 	            		var row = data[i];
-	            		closeMessage(row);
+	            		if(row['onoff']!='OFF'){
+	            			closeMessage(row);
+	            		}
 	            	}
 	            }
 	        }];
