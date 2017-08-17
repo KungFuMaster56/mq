@@ -19,6 +19,7 @@ public class NoticeServiceImpl implements NoticeService{
 
 	@Override
 	public void sendMessage(Destination destination, String message) {
+		jmsTemplate.setSessionTransacted(true);
 		jmsTemplate.convertAndSend(destination, message);
 	}
 	

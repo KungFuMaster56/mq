@@ -23,6 +23,27 @@ function table(){
 	            text:'查询',
 	            iconCls:'icon-search',
 	            handler:function(){search()}
+	        },'-',{
+	            text:'全部开启',
+	            iconCls:'icon-ok',
+	            handler:function(){
+	            	var data = $('#tt').datagrid('getRows');
+	            	for(var i =0;i<data.length;i++){
+	            		var row = data[i];
+	            		openMessage(row);
+	            	}
+	            	
+	            }
+	        },'-',{
+	            text:'全部关闭',
+	            iconCls:'icon-no',
+	            handler:function(){
+	            	var data = $('#tt').datagrid('getRows');
+	            	for(var i =0;i<data.length;i++){
+	            		var row = data[i];
+	            		closeMessage(row);
+	            	}
+	            }
 	        }];
 	 var editIndex = undefined;
 	 function endEditing(){
@@ -89,7 +110,7 @@ function table(){
 			contentType:'application/json;charset=utf-8',
 			//dataType:'json',
 			success:function(data){
-					 $.messager.alert('信息','执行成功!','info');
+					// $.messager.alert('信息','执行成功!','info');
 					 search();
 			},
 			error:function(data){
