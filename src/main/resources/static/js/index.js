@@ -37,6 +37,19 @@ function table(){
 	            	
 	            }
 	        },'-',{
+	            text:'全部立即执行',
+	            iconCls:'icon-ok',
+	            handler:function(){
+	            	var data = $('#tt').datagrid('getRows');
+	            	for(var i =0;i<data.length;i++){
+	            		var row = data[i];
+	            		if(row['onoff']!='ON'){
+	            			row['immediately']=true;
+	            			openMessage(row);
+	            		}
+	            	}
+	            }
+	        },'-',{
 	            text:'全部关闭',
 	            iconCls:'icon-no',
 	            handler:function(){
