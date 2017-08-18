@@ -49,6 +49,27 @@ function table(){
 	            	}
 	            }
 	        }];
+	this.subtoolbar = [{
+        text:'增加',
+        iconCls:'icon-add',
+        handler:function(){addRow()}
+    },{
+        text:'删除',
+        iconCls:'icon-remove',
+        handler:function(){delRow()}
+    },{
+        text:'修改',
+        iconCls:'icon-edit',
+        handler:function(){editRow()}
+    },'-',{
+        text:'保存',
+        iconCls:'icon-save',
+        handler:function(){save()}
+    },'-',{
+        text:'查询',
+        iconCls:'icon-search',
+        handler:function(){search()}
+    }];
 	 var editIndex = undefined;
 	 function endEditing(){
          if (editIndex == undefined){return true}
