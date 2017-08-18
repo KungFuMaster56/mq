@@ -144,7 +144,7 @@ function table(){
 		})
 	}
 	this.switchButton = function(value,row,index){
-		return ' <input data-num="'+index+'" name ="switchButton" switch="'+value+'"/>';
+		return ' <input data-num="'+index+'" name ="switchButton" switch="'+value+'"/><a data-num="'+index+'" href="#">立即执行</a>';
 	}
 	this.loadSuccess = function(data){
 		var data = $('#tt').datagrid('getRows');
@@ -158,9 +158,8 @@ function table(){
 			$('input[data-num="'+i+'"]').switchbutton({
 	    		checked:check,
 	    		onChange: function(checked){
-	    			var rows = $('#tt').datagrid('getRows');
 	    			var index = $(this).attr('data-num');
-	    			var row = rows[index];
+	    			var row = data[index];
 	             // alert(JSON.stringify($(this).switchbutton('options')))
 	    			if(checked){
 	    				openMessage(row);
@@ -168,6 +167,15 @@ function table(){
 	    				closeMessage(row);
 	    			}
 	            }	
+			});
+			$('a[data-num="'+i+'"]').linkbutton({
+				disabled:check ,
+				onClick:function(){
+					var index = $(this).attr('data-num');
+	    			var row = data[index];
+	    			row['immediately']=true;
+	    			openMessage(row);
+				}
 			});
 		}
 	}

@@ -15,6 +15,8 @@ public class QuartzTask {
 	private String cron;
 	
 	private String onoff;
+	
+	private boolean immediately;
 
 	public Long getId() {
 		return id;
@@ -71,7 +73,13 @@ public class QuartzTask {
 	public void setOnoff(String onoff) {
 		this.onoff = onoff;
 	}
-	
-	
+
+	public boolean isImmediately() {
+		return immediately;
+	}
+
+	public void setImmediately(boolean immediately) {
+		this.immediately = immediately;
+	}
 	
 }

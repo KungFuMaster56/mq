@@ -13,7 +13,6 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.impl.matchers.KeyMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -115,6 +114,8 @@ public class SchedulerServiceImpl implements SchedulerService{
 				.withSchedule(CronScheduleBuilder.cronSchedule(qt.getCron().trim())).build();
 		scheduler.start();
 		scheduler.scheduleJob(jd, trigger);
-		scheduler.triggerJob(jk,jd.getJobDataMap());//添加任务，立即执行
+		if(qt.isImmediately()){
+			scheduler.triggerJob(jk,jd.getJobDataMap());//添加任务，立即执行
+		}
 	}
 }
