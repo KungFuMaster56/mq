@@ -17,6 +17,8 @@ public class QuartzTask {
 	private String onoff;
 	
 	private boolean immediately;
+	
+	private String communication;
 
 	public Long getId() {
 		return id;
@@ -80,6 +82,14 @@ public class QuartzTask {
 
 	public void setImmediately(boolean immediately) {
 		this.immediately = immediately;
+	}
+
+	public String getCommunication() {
+		return communication;
+	}
+
+	public void setCommunication(String communication) {
+		this.communication = communication;
 	}
 	
 }

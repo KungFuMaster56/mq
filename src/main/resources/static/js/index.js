@@ -202,7 +202,17 @@ function table(){
 		row['onoff']='OFF';
 		fire(row,'delete','message/scheduler');
 	}
+	
+	this.communicationData = [{'communication':'QUEUE','communication_name':'队列'},{'communication':'TOPIC','communication_name':'订阅'}];
+	this.enableFilter = function(){
+		 $('#tt').datagrid('enableFilter');
+	}
 }
 
 	var table = new table();
+	$(function(){
+		table.enableFilter();
+	})
+
+	
 	//var tbar = t.toolbar;

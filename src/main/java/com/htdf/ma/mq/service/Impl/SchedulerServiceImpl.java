@@ -109,6 +109,7 @@ public class SchedulerServiceImpl implements SchedulerService{
 		JobDetail jd = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(jk).build();
 		jd.getJobDataMap().put("message", qt.getMessage());
 		jd.getJobDataMap().put("onoff", qt.getOnoff());
+		jd.getJobDataMap().put("communication", qt.getCommunication());
 		TriggerKey tk = new TriggerKey(qt.getTrigger_key(),qt.getGroup_key());
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity(tk)
 				.withSchedule(CronScheduleBuilder.cronSchedule(qt.getCron().trim())).build();

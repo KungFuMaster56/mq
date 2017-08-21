@@ -23,7 +23,8 @@
 				 group_key=#{item.group_key},
 				 trigger_key=#{item.trigger_key},
 				 message=#{item.message},
-				 onoff=#{item.onoff} 
+				 onoff=#{item.onoff},
+				 communication=#{item.communication} 
 			</set>
 			
 			WHERE id=#{item.id}

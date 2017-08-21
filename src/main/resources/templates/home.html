@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css"/>
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/datagrid-filter/datagrid-filter.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 </head>
 <body>
@@ -39,13 +40,16 @@
                                     });  
                                 $(ed2.target).textbox('setValue', record['message_code']);   
                 }}
-                }"><a href="message_index">消息</a></th>
+                }"><a href="message_index" >消息</a></th>
                 <th data-options="field:'task_key',width:150,align:'center',editor:'textbox'">任务编号</th>
                 <th data-options="field:'trigger_key',width:150,align:'center',editor:'textbox'">触发器编号</th>
                 <th data-options="field:'group_key',width:150,align:'center',editor:'textbox'">分组编号</th>
                 <th data-options="field:'cron',width:250,align:'center',editor:{
                 type:'combobox',options:{valueField:'cron',textField:'cron_name',method:'get',url:'cron'}
-                }"><a href="cron_index">cron表达式</a></th>
+                }"><a href="cron_index" >cron表达式</a></th>
+                 <th data-options="field:'communication',width:100,align:'center',editor:{
+                type:'combobox',options:{valueField:'communication',textField:'communication_name',data:table.communicationData}
+                }">通信方式</th>
                 <th data-options="field:'onoff',width:200,align:'center',formatter:table.switchButton">操作</th>
             </tr>
         </thead>
