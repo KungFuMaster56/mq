@@ -97,16 +97,21 @@ function table(){
 	var search = function(){
 		$('#tt').datagrid('reload');
 	}
+	var disableHandleButton = function(editIndex){
+		$('input[data-num="'+editIndex+'"]').switchbutton({
+     		checked:false,
+     		readonly:true
+     	});
+         $('a[data-num="'+editIndex+'"]').linkbutton({
+				disabled:true });
+	}
 	var addRow = function(){
 		 if (endEditing()){
              $('#tt').datagrid('appendRow',{});
              editIndex = $('#tt').datagrid('getRows').length-1;
              $('#tt').datagrid('selectRow', editIndex)
                      .datagrid('beginEdit', editIndex);
-             $('input[name="switchButton"]').switchbutton({
-         		checked:false,
-         		readonly:true
-         	});
+             disableHandleButton(editIndex);
          }
 	}
 	var delRow = function(){
@@ -121,6 +126,7 @@ function table(){
 			editIndex=$('#tt').datagrid('getRowIndex',$('#tt').datagrid('getSelected'));
 			$('#tt').datagrid('beginEdit', editIndex);
 		}
+		 disableHandleButton(editIndex);
 	}
 	var save = function(){
 		var gridUrl = $('#tt').datagrid('options')['url'];
@@ -205,7 +211,27 @@ function table(){
 	
 	this.communicationData = [{'communication':'QUEUE','communication_name':'队列'},{'communication':'TOPIC','communication_name':'订阅'}];
 	this.enableFilter = function(){
-		 $('#tt').datagrid('enableFilter');
+		 $('#tt').datagrid('enableFilter',[{
+			 field:'onoff',
+			 type:'combobox',
+			 options:{
+				 editable:false,
+				 panelHeight:'auto',
+                 data:[{value:'',text:'所有状态'}],
+                 onChange:function(value){
+                     if (value == ''){
+                    	 $('#tt').datagrid('removeFilterRule', 'onoff');
+                     } /*else {
+                    	 $('#tt').datagrid('addFilterRule', {
+                             field: 'onoff',
+                             op: 'equal',
+                             value: value
+                         });
+                     }*/
+                     $('#tt').datagrid('doFilter');
+                 }
+			 }
+		 }]);
 	}
 }
 
